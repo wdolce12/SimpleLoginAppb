@@ -94,6 +94,8 @@ public class Login extends AppCompatActivity {
             }
         }
 
+        
+
         else
         {
             Toast.makeText(getApplicationContext(),"No Paired Bluetooth Devices Found",Toast.LENGTH_LONG).show();
