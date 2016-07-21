@@ -39,7 +39,7 @@ public class Login extends AppCompatActivity {
     private BluetoothAdapter myBluetooth = null;
     //private Set pairedDevices;
     private Set<BluetoothDevice> pairedDevices;
-    public static String EXTRA_ADDRESS = "device_address";
+    public static String EXTRA_ADDRESS= null; //= "device_address";
 
 
 
@@ -60,9 +60,16 @@ public class Login extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Bluetooth Device Not Available",Toast.LENGTH_LONG).show();
             finish();
         }
-        else if(!myBluetooth.isEnabled()){
-            Intent turnBTon = new Intent((BluetoothAdapter.ACTION_REQUEST_ENABLE));
-            startActivityForResult(turnBTon,1);
+        else
+        {
+            if(!myBluetooth.isEnabled()){
+
+            }
+            else
+            {
+                Intent turnBTon = new Intent((BluetoothAdapter.ACTION_REQUEST_ENABLE));
+                startActivityForResult(turnBTon,1);
+            }
         }
 
         btnPaired.setOnClickListener(new View.OnClickListener(){
@@ -86,15 +93,13 @@ public class Login extends AppCompatActivity {
 
     private void pairedDevicesList(){
         pairedDevices = myBluetooth.getBondedDevices();
-        ArrayList list = new ArrayList<>();
+        ArrayList list = new ArrayList();
 
         if (pairedDevices.size()>0){
             for(BluetoothDevice bt : pairedDevices){
                 list.add(bt.getName() + "\n" + bt.getAddress());
             }
         }
-
-        
 
         else
         {
@@ -114,7 +119,8 @@ public class Login extends AppCompatActivity {
             String address = info.substring(info.length() - 17);
 
             Intent i = new Intent(Login.this,Usera.class);
-            i.putExtra(EXTRA_ADDRESS, address);
+            //i.putExtra(EXTRA_ADDRESS, address);
+            i.putExtra(EXTRA_ADDRESS,address);
 
             startActivity(i);
         }

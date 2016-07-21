@@ -65,13 +65,16 @@ public class Usera extends AppCompatActivity implements SensorEventListener {
         mySensor = SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
 
+        //Intent newint = getIntent();
         Intent newint = getIntent();
-        address= newint.getStringExtra(address);
+        address= newint.getStringExtra(Login.EXTRA_ADDRESS);
 
         //setContentView(R.layout.activity_usera);
         doorOpen=(Button)findViewById(R.id.button2);
         doorClose=(Button)findViewById(R.id.button3);
         btnDis=(Button)findViewById(R.id.button6);
+
+        new ConnectBT().execute();
 
         xText=(TextView)findViewById(R.id.xText);
         yText=(TextView)findViewById(R.id.yText);
@@ -118,7 +121,7 @@ public class Usera extends AppCompatActivity implements SensorEventListener {
         if (btSocket != null){
             try
             {
-                btSocket.getOutputStream().write("B".toString().getBytes());
+                btSocket.getOutputStream().write('B');
             }
             catch (IOException e)
             {
@@ -131,7 +134,7 @@ public class Usera extends AppCompatActivity implements SensorEventListener {
         if(btSocket != null){
             try
             {
-                btSocket.getOutputStream().write("A".toString().getBytes());
+                btSocket.getOutputStream().write('A');
             }
             catch (IOException e){
                 msg("Error");
@@ -155,7 +158,7 @@ public class Usera extends AppCompatActivity implements SensorEventListener {
         zText.setText("Z: " + event.values[2]);
     }
 
-    private class connectBT extends AsyncTask<Void,Void,Void>{
+    private class ConnectBT extends AsyncTask<Void,Void,Void>{
         private boolean ConnectSuccess = true;
 
         @Override
