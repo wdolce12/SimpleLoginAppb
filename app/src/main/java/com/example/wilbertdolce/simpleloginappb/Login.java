@@ -40,9 +40,6 @@ public class Login extends AppCompatActivity {
     //private Set pairedDevices;
     private Set<BluetoothDevice> pairedDevices;
     public static String EXTRA_ADDRESS= null; //= "device_address";
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,9 +85,8 @@ public class Login extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-        LoginButton();
+        //LoginButton();
     }
-
     private void pairedDevicesList(){
         pairedDevices = myBluetooth.getBondedDevices();
         ArrayList list = new ArrayList();
@@ -112,62 +108,24 @@ public class Login extends AppCompatActivity {
         deviceList.setOnItemClickListener(myListClickListener);
 
     }
-
     private AdapterView.OnItemClickListener myListClickListener = new AdapterView.OnItemClickListener(){
         public void onItemClick (AdapterView av, View v, int arg2, long arg3){
             String info =((TextView) v).getText().toString();
             String address = info.substring(info.length() - 17);
 
-            Intent i = new Intent(Login.this,Usera.class);
+            Intent i = new Intent(Login.this,pin_input.class);
             //i.putExtra(EXTRA_ADDRESS, address);
             i.putExtra(EXTRA_ADDRESS,address);
 
             startActivity(i);
         }
     };
-
-    public void  LoginButton(){
-        username=(EditText)findViewById(R.id.editText_user);
-        password=(EditText)findViewById(R.id.editText_password);
-        attempts=(TextView)findViewById(R.id.textView_attempts_Count);
-        login_btn=(Button)findViewById(R.id.button_login);
-
-        attempts.setText(Integer.toString(attempt_counter));
-
-        login_btn.setOnClickListener(
-                new View.OnClickListener(){
-                    @Override
-                public void onClick(View v){
-                        if(username.getText().toString().equals("user")
-                                && password.getText().toString().equals("pass")){
-                            Toast.makeText(Login.this,"Username and Password is correct",
-                                    Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent("com.example.wilbertdolce.simpleloginappb.Usera");
-                            startActivity(intent);
-                        } else{
-                            Toast.makeText(Login.this,"Username and Password is NOT correct",
-                                    Toast.LENGTH_SHORT).show();
-                            attempt_counter--;
-                            attempts.setText(Integer.toString(attempt_counter));
-                            if(attempt_counter==0){
-                                login_btn.setEnabled(false);
-                            }
-
-                        }
-
-                    }
-                }
-        );
-
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_login, menu);
         return true;
     }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

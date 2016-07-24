@@ -1,4 +1,5 @@
 package com.example.wilbertdolce.simpleloginappb;
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -31,18 +32,20 @@ import android.bluetooth.BluetoothDevice;
 import android.os.AsyncTask;
 import java.io.IOException;
 import java.util.UUID;
-public class Usera extends AppCompatActivity {
+
+
+public class motion_option extends AppCompatActivity implements SensorEventListener {
 
 
     //private static Button fan_button;
 
-   // private TextView xText, yText, zText;
+    private TextView xTextm, yTextm, zTextm, doorstat,fanstat;
     private Sensor mySensor;
     private SensorManager SM;
     String A="A";
     String B="B";
 
-    Button fanOn, fanOff, doorOpen, doorClose, btnDis, motion;
+    //Button fanOn, fanOff, doorOpen, doorClose, btnDis, motion;
     SeekBar brightness;
     String address = null;
     private ProgressDialog progress;
@@ -52,95 +55,40 @@ public class Usera extends AppCompatActivity {
     private boolean isBtConnected = false;
     static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_usera);
-
+        setContentView(R.layout.activity_motion_option);
+        SM = (SensorManager)getSystemService(SENSOR_SERVICE);
+        mySensor = SM.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        SM.registerListener(this, mySensor, SensorManager.SENSOR_DELAY_NORMAL);
 
         //Intent newint = getIntent();
         Intent newint = getIntent();
         address= newint.getStringExtra(pin_input.EXTRA_ADDRESS);
 
         //setContentView(R.layout.activity_usera);
-        doorOpen=(Button)findViewById(R.id.button2);
-        doorClose=(Button)findViewById(R.id.button3);
-        btnDis=(Button)findViewById(R.id.button6);
+        //doorOpen=(Button)findViewById(R.id.button2);
+        //doorClose=(Button)findViewById(R.id.button3);
+        //btnDis=(Button)findViewById(R.id.button6);
         //fanOn=(Button)findViewByID(R.id.button4);
-        fanOn=(Button)findViewById(R.id.button4);
-        fanOff=(Button)findViewById(R.id.button5);
-        motion=(Button)findViewById(R.id.motion);
+        //fanOn=(Button)findViewById(R.id.button4);
+        //fanOff=(Button)findViewById(R.id.button5);
+        //motion=(Button)findViewById(R.id.motion);
 
         new ConnectBT().execute();
 
-        //xText=(TextView)findViewById(R.id.xText);
-        //yText=(TextView)findViewById(R.id.yText);
-        //zText=(TextView)findViewById(R.id.zText);
 
-        doorOpen.setOnClickListener(new View.OnClickListener(){
-            @Override
-        public void onClick(View v){
-                TurnOnLed();
-            }
-        });
 
-        doorClose.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                TurnOffLed();
-            }
-        });
-        fanOn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TurnOnFan();
-            }
-        });
-        fanOff.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                TurnOffFan();
-            }
-        });
-        btnDis.setOnClickListener(new View.OnClickListener(){
-            @Override
-        public void onClick(View v){
-                Disconnect();
-            }
+        xTextm=(TextView)findViewById(R.id.xTextm);
+        yTextm=(TextView)findViewById(R.id.yTextm);
+        zTextm=(TextView)findViewById(R.id.zTextm);
+        doorstat=(TextView)findViewById(R.id.doorstat);
+        fanstat=(TextView)findViewById(R.id.fanstat);
 
-        });
-        motion.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                Disconnecta();
-                Intent newint2 = new Intent(Usera.this,motion_option.class);
-                newint2.putExtra(EXTRA_ADDRESS,address);
-                startActivity(newint2);
-            }
-        });
-    }
-    private void Disconnecta() {
-        if (btSocket != null) {
-            try
-            {
-                btSocket.close();
-            }
-            catch (IOException e)
-            {
-                msg("Connect Success!!");
-            }
-        }
-    }
-    private void Disconnect() {
-        if (btSocket != null) {
-            try
-            {
-                btSocket.close();
-            }
-            catch (IOException e)
-            {
-                msg("Error");
-            }
-        }
+
+
+
     }
     private void TurnOffLed(){
         if (btSocket != null){
@@ -192,12 +140,39 @@ public class Usera extends AppCompatActivity {
     private void msg(String s){
         Toast.makeText(getApplicationContext(),s,Toast.LENGTH_LONG).show();
     }
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int acuracy){
+
+    }
+    @Override
+    public void onSensorChanged(SensorEvent event){
+        xTextm.setText("X: " + event.values[0]);
+        yTextm.setText("Y: " + event.values[1]);
+        zTextm.setText("Z: " + event.values[2]);
+
+        if(event.values[0]>7.0){
+            TurnOnLed();
+            doorstat.setText("THE DOOR IS UNLOCKED!!");
+        }
+        if(event.values[0]<(-5.0)){
+            TurnOffLed();
+            doorstat.setText("THE DOOR IS LOCKED!!");
+        }
+        if(event.values[1]>10.0){
+            TurnOnFan();
+            fanstat.setText("THE FAN IS ON!!");
+        }
+        if(event.values[1]<(-1)){
+            TurnOffFan();
+            fanstat.setText("THE FAN IS OFF!!");
+        }
+    }
     private class ConnectBT extends AsyncTask<Void,Void,Void>{
         private boolean ConnectSuccess = true;
 
         @Override
         protected void onPreExecute(){
-            progress = ProgressDialog.show(Usera.this,"Connecting . . .","Please Wait ! ! !");
+            progress = ProgressDialog.show(motion_option.this,"Connecting . . .","Please Wait ! ! !");
         }
 
         @Override
