@@ -7,37 +7,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/on"
     tools:context="com.example.wilbertdolce.simpleloginappb.motion_option">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/xTextm"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="X:" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Y:"
-        android:id="@+id/yTextm"
-        android:layout_below="@+id/xTextm"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Z:"
-        android:id="@+id/zTextm"
-        android:layout_below="@+id/yTextm"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -45,9 +16,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Door Status:"
         android:id="@+id/doorstat"
-        android:layout_below="@+id/zTextm"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -55,7 +24,50 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Fan Status"
         android:id="@+id/fanstat"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/doorstat"
+        android:layout_alignEnd="@+id/doorstat" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Turn Device Left to Unlock Door"
+        android:id="@+id/textView3"
         android:layout_below="@+id/doorstat"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Turn Device to The Right to Lock"
+        android:id="@+id/textView4"
+        android:layout_below="@+id/textView3"
+        android:layout_alignRight="@+id/textView3"
+        android:layout_alignEnd="@+id/textView3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Rotate Device Upward for Fan On"
+        android:id="@+id/textView5"
+        android:layout_alignRight="@+id/textView4"
+        android:layout_alignEnd="@+id/textView4"
+        android:layout_below="@+id/fanstat"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Rotate Device Down for Fan Off"
+        android:id="@+id/textView6"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/textView5"
+        android:layout_alignLeft="@+id/textView5"
+        android:layout_alignStart="@+id/textView5" />
 </RelativeLayout>

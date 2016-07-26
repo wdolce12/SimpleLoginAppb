@@ -39,7 +39,7 @@ public class motion_option extends AppCompatActivity implements SensorEventListe
 
     //private static Button fan_button;
 
-    private TextView xTextm, yTextm, zTextm, doorstat,fanstat;
+    private TextView doorstat,fanstat;
     private Sensor mySensor;
     private SensorManager SM;
     String A="A";
@@ -67,22 +67,10 @@ public class motion_option extends AppCompatActivity implements SensorEventListe
         Intent newint = getIntent();
         address= newint.getStringExtra(pin_input.EXTRA_ADDRESS);
 
-        //setContentView(R.layout.activity_usera);
-        //doorOpen=(Button)findViewById(R.id.button2);
-        //doorClose=(Button)findViewById(R.id.button3);
-        //btnDis=(Button)findViewById(R.id.button6);
-        //fanOn=(Button)findViewByID(R.id.button4);
-        //fanOn=(Button)findViewById(R.id.button4);
-        //fanOff=(Button)findViewById(R.id.button5);
-        //motion=(Button)findViewById(R.id.motion);
+
 
         new ConnectBT().execute();
 
-
-
-        xTextm=(TextView)findViewById(R.id.xTextm);
-        yTextm=(TextView)findViewById(R.id.yTextm);
-        zTextm=(TextView)findViewById(R.id.zTextm);
         doorstat=(TextView)findViewById(R.id.doorstat);
         fanstat=(TextView)findViewById(R.id.fanstat);
 
@@ -146,15 +134,12 @@ public class motion_option extends AppCompatActivity implements SensorEventListe
     }
     @Override
     public void onSensorChanged(SensorEvent event){
-        xTextm.setText("X: " + event.values[0]);
-        yTextm.setText("Y: " + event.values[1]);
-        zTextm.setText("Z: " + event.values[2]);
 
         if(event.values[0]>7.0){
             TurnOnLed();
             doorstat.setText("THE DOOR IS UNLOCKED!!");
         }
-        if(event.values[0]<(-5.0)){
+        if(event.values[0]<(-7.0)){
             TurnOffLed();
             doorstat.setText("THE DOOR IS LOCKED!!");
         }
@@ -162,7 +147,7 @@ public class motion_option extends AppCompatActivity implements SensorEventListe
             TurnOnFan();
             fanstat.setText("THE FAN IS ON!!");
         }
-        if(event.values[1]<(-1)){
+        if(event.values[1]<(-1.5)){
             TurnOffFan();
             fanstat.setText("THE FAN IS OFF!!");
         }

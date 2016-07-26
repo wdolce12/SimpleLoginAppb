@@ -7,6 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@drawable/lockb"
     tools:context="com.example.wilbertdolce.simpleloginappb.pin_input">
 
     <Button
@@ -41,6 +42,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Attempts"
         android:id="@+id/attempts1a"
-        android:layout_below="@+id/pin_input"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/pin_input" />
 </RelativeLayout>
