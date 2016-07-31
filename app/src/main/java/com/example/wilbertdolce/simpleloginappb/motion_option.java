@@ -45,6 +45,8 @@ public class motion_option extends AppCompatActivity implements SensorEventListe
     String A="A";
     String B="B";
 
+    Button regular;
+
     //Button fanOn, fanOff, doorOpen, doorClose, btnDis, motion;
     SeekBar brightness;
     String address = null;
@@ -67,6 +69,7 @@ public class motion_option extends AppCompatActivity implements SensorEventListe
         Intent newint = getIntent();
         address= newint.getStringExtra(pin_input.EXTRA_ADDRESS);
 
+        regular = (Button)findViewById(R.id.reg);
 
 
         new ConnectBT().execute();
@@ -74,9 +77,29 @@ public class motion_option extends AppCompatActivity implements SensorEventListe
         doorstat=(TextView)findViewById(R.id.doorstat);
         fanstat=(TextView)findViewById(R.id.fanstat);
 
+        regular.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Disconnecta();
+                Intent newint4 = new Intent(motion_option.this,Usera.class);
+                newint4.putExtra(EXTRA_ADDRESS,address);
+                startActivity(newint4);
+            }
+        });
 
 
-
+    }
+    private void Disconnecta() {
+        if (btSocket != null) {
+            try
+            {
+                btSocket.close();
+            }
+            catch (IOException e)
+            {
+                msg("Connect Success!!");
+            }
+        }
     }
     private void TurnOffLed(){
         if (btSocket != null){

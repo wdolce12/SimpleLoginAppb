@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.io.InputStream;
 import java.util.concurrent.TimeUnit;
 
 import android.bluetooth.BluetoothSocket;
@@ -41,8 +42,10 @@ public class Usera extends AppCompatActivity {
     private SensorManager SM;
     String A="A";
     String B="B";
-
-    Button fanOn, fanOff, doorOpen, doorClose, btnDis, motion;
+    int F=0;
+    String t;
+    private TextView temp;
+    Button fanOn, fanOff, doorOpen, doorClose, btnDis, motion, temperature;
     SeekBar brightness;
     String address = null;
     private ProgressDialog progress;
@@ -69,20 +72,32 @@ public class Usera extends AppCompatActivity {
         fanOn=(Button)findViewById(R.id.button4);
         fanOff=(Button)findViewById(R.id.button5);
         motion=(Button)findViewById(R.id.motion);
+        temp=(TextView)findViewById(R.id.temper);
+        temperature=(Button)findViewById(R.id.temp_btn);
+
+
+        InputStream in = null;
 
         new ConnectBT().execute();
+
+
 
         //xText=(TextView)findViewById(R.id.xText);
         //yText=(TextView)findViewById(R.id.yText);
         //zText=(TextView)findViewById(R.id.zText);
 
-        doorOpen.setOnClickListener(new View.OnClickListener(){
+        doorOpen.setOnClickListener(new View.OnClickListener() {
             @Override
-        public void onClick(View v){
+            public void onClick(View v) {
                 TurnOnLed();
             }
         });
-
+        temperature.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GetTemp();
+            }
+        });
         doorClose.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -139,6 +154,18 @@ public class Usera extends AppCompatActivity {
             catch (IOException e)
             {
                 msg("Error");
+            }
+        }
+    }
+    private void GetTemp() {
+        if (btSocket != null) {
+            try {
+                btSocket.getOutputStream().write('E');
+                F=btSocket.getInputStream().read();
+                temp.setText("Temperature = " + F);
+
+            } catch (IOException e) {
+                msg("ERROR!!");
             }
         }
     }
